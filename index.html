@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculadora de costos de importación: landed cost, aranceles e IVA</title>
+<meta name="description" content="Calcula gratis el costo total de importar: flete, seguro, aranceles, IVA, costo unitario y margen por producto. Editable para cualquier país.">
+<link rel="canonical" href="https://TU-DOMINIO.com/">
+<!-- ADSENSE: pega aquí el código de AdSense (script async) cuando tengas tu ID de publicador -->
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1b2430;--mu:#6b7686;--bd:#dde2e9;--ac:#0b6e4f;--ac2:#e8f4ef;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161c;--card:#1a2029;--tx:#e8ecf1;--mu:#93a0b2;--bd:#2c3542;--ac:#3fc59a;--ac2:#18312a;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0}h2{font-size:15px;margin:0 0 10px;color:var(--ac)}
+p.s{color:var(--mu);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+label{display:block;font-size:12px;color:var(--mu)}
+input,select{width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.t{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:5px;text-align:right;border-bottom:1px solid var(--bd);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mu);font-weight:600}
+td input{min-width:78px;padding:6px}td:first-child input{min-width:140px}
+button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+button.x{background:transparent;color:var(--mu);padding:4px 8px}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.k div{background:var(--ac2);border-radius:10px;padding:10px}.k b{display:block;font-size:20px}.k span{font-size:12px;color:var(--mu)}
+.r{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bd)}.r.tot{font-weight:700;color:var(--ac);border:0;font-size:17px}
+.bar{height:10px;border-radius:6px;overflow:hidden;display:flex;margin:10px 0}.bar i{display:block;height:100%}
+.lg{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--mu)}.lg em{font-style:normal}.lg u{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;text-decoration:none}
+
+.nav{border-bottom:1px solid var(--bd);background:var(--card)}.nav div{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}.nav b{margin-right:auto}.nav a,footer a,article a{color:var(--ac);text-decoration:none}
+.ad{margin:14px 0;text-align:center;min-height:90px}.ad:empty{display:none}
+article h2{font-size:18px;margin:20px 0 6px;color:var(--tx)}article p,article li{max-width:75ch}
+footer{max-width:1100px;margin:0 auto;padding:16px;color:var(--mu);font-size:13px}
+#ck{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;display:none;gap:10px;align-items:center;flex-wrap:wrap;z-index:9}#ck span{flex:1;min-width:220px}
+</style></head><body><header class="nav"><div><b>Calculadora de importación</b><a href="index.html">Calculadora</a><a href="index.html#guia">Guía</a><a href="sobre.html">Sobre nosotros</a><a href="contacto.html">Contacto</a></div></header><main>
+<h1>Calculadora de costos de importación</h1>
+<p class="s">Calcula el costo total puesto en bodega (landed cost), impuestos, costo unitario por producto y margen. Todos los porcentajes son editables según tu país y partida arancelaria.</p>
+
+<div class="ad"><!-- ANUNCIO: pega aquí tu unidad de anuncios (ins class="adsbygoogle") --></div>
+<div class="card"><h2>1. Datos generales</h2><div class="g">
+<div><label>Moneda de trabajo</label><input id="mon" value="USD"></div>
+<div><label>Prorratear gastos por</label><select id="base"><option value="valor">Valor FOB</option><option value="peso">Peso (kg)</option><option value="volumen">Volumen (m³)</option><option value="unidades">Unidades</option></select></div>
+<div><label>Tipo de cambio (opcional, ver total en otra moneda)</label><input id="fx" type="number" step="any" value="1"></div>
+<div><label>Moneda equivalente</label><input id="mon2" value=""></div>
+</div></div>
+
+<div class="card"><h2>2. Productos</h2><div class="t"><table id="tp"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unit. FOB</th><th>Peso total (kg)</th><th>Volumen total (m³)</th><th>Arancel %</th><th>Otro impuesto %</th><th>Precio venta unit.</th><th></th></tr></thead><tbody></tbody></table></div>
+<p><button onclick="addRow()">+ Agregar producto</button></p></div>
+
+<div class="card"><h2>3. Costos internacionales (por embarque)</h2><div class="g">
+<div><label>Gastos en origen (EXW→FOB, embalaje, inspección)</label><input id="c_origen" type="number" value="0"></div>
+<div><label>Flete internacional</label><input id="c_flete" type="number" value="0"></div>
+<div><label>Seguro (% sobre FOB+flete)</label><input id="p_seg" type="number" step="any" value="0.5"></div>
+<div><label>Otros cargos internacionales</label><input id="c_otrosint" type="number" value="0"></div>
+</div></div>
+
+<div class="card"><h2>4. Impuestos y costos locales</h2><div class="g">
+<div><label>IVA / VAT %</label><input id="p_iva" type="number" step="any" value="15"></div>
+<div><label>¿El IVA es recuperable (crédito fiscal)?</label><select id="ivarec"><option value="1">Sí, no suma al costo</option><option value="0">No, suma al costo</option></select></div>
+<div><label>Tasas aduaneras fijas (por declaración)</label><input id="c_tasas" type="number" value="0"></div>
+<div><label>Agente / corredor aduanero</label><input id="c_agente" type="number" value="0"></div>
+<div><label>Puerto, desaduanización, manejo (THC, etc.)</label><input id="c_puerto" type="number" value="0"></div>
+<div><label>Almacenaje / demoras</label><input id="c_alm" type="number" value="0"></div>
+<div><label>Transporte local hasta bodega</label><input id="c_trans" type="number" value="0"></div>
+<div><label>Otros costos locales</label><input id="c_otros" type="number" value="0"></div>
+<div><label>Costo financiero / comisión bancaria (% sobre FOB)</label><input id="p_fin" type="number" step="any" value="0"></div>
+</div></div>
+
+<div class="card"><h2>Resultado del embarque</h2>
+<div class="k" id="kp"></div><div class="bar" id="bar"></div><div class="lg" id="lg"></div>
+<div id="desg" style="margin-top:10px"></div></div>
+
+<div class="ad"><!-- ANUNCIO: pega aquí tu unidad de anuncios (ins class="adsbygoogle") --></div>
+<div class="card"><h2>Costo unitario y rentabilidad por producto</h2><div class="t"><table id="tr"><thead><tr><th>Producto</th><th>FOB</th><th>Gastos intl. asignados</th><th>CIF</th><th>Arancel</th><th>Otro imp.</th><th>IVA</th><th>Gastos locales</th><th>Costo total</th><th>Costo unitario</th><th>Margen %</th><th>Precio sugerido (30%)</th></tr></thead><tbody></tbody></table></div>
+<p class="s" style="margin-top:8px">Precio sugerido = costo unitario / (1 − 30%). El margen se calcula sobre el precio de venta unitario que ingreses (sin IVA).</p></div>
+<div class="ad"><!-- ANUNCIO: pega aquí tu unidad de anuncios (ins class="adsbygoogle") --></div>
+<article class="card" id="guia"><h1 style="font-size:20px">Guía: cómo calcular el costo real de importar</h1>
+<h2>¿Qué es el costo puesto en bodega (landed cost)?</h2><p>Es todo lo que pagas hasta tener la mercadería en tu bodega: el precio de los productos, el flete y el seguro internacionales, los impuestos de aduana, los gastos de puerto y agente, y el transporte local. Dividirlo entre las unidades te da el costo unitario real, que es la base para fijar un precio de venta con margen.</p>
+<h2>FOB y CIF: la base de los impuestos</h2><p><b>FOB</b> (Free On Board) es el valor de la mercadería puesta en el puerto de origen. <b>CIF</b> (Cost, Insurance and Freight) suma el seguro y el flete internacional. En la mayoría de países los aranceles y el IVA de importación se calculan sobre el valor CIF, no sobre el FOB.</p>
+<h2>Aranceles, IVA y otros impuestos</h2><p>El arancel depende de la partida arancelaria del producto. Sobre el CIF se aplica el arancel y, en algunos países, otros tributos (por ejemplo, en Ecuador existe el FODINFA, del 0,5 % sobre el CIF). El IVA se calcula sobre el CIF más los impuestos anteriores. Si eres contribuyente con derecho a crédito fiscal, el IVA no suma al costo, aunque sí lo desembolsas al desaduanizar. Verifica siempre las tasas vigentes con tu agente de aduana.</p>
+<h2>¿Cómo se reparten los gastos entre productos?</h2><p>Cuando importas varios productos en un mismo embarque, los gastos comunes se prorratean. Puedes repartirlos por valor FOB, peso, volumen o unidades. El flete suele repartirse mejor por peso o volumen; el seguro, por valor. Elige en la sección 1 el criterio que mejor refleje cómo te cobran.</p>
+<h2>Preguntas frecuentes</h2>
+<p><b>¿Qué margen debo buscar?</b> Depende del producto y del canal. La calculadora sugiere un precio con 30 % de margen sobre el precio de venta; puedes comparar con tu precio real en la tabla de resultados.</p>
+<p><b>¿Esta calculadora sirve para cualquier país?</b> Sí, porque todos los porcentajes y costos son editables. El IVA viene en 15 % por defecto; cámbialo según tu país.</p>
+<p><b>¿Se guardan mis datos?</b> No. Todos los cálculos se hacen en tu navegador y no enviamos tus cifras a ningún servidor.</p></article>
+<script>
+const $=id=>document.getElementById(id);
+const v=id=>parseFloat($(id).value)||0;
+const f=n=>n.toLocaleString("es",{minimumFractionDigits:2,maximumFractionDigits:2});
+const demo=[["Producto A",100,12,50,0.4,10,0,25],["Producto B",200,5,80,0.6,5,0,10]];
+function addRow(d){d=d||["",1,0,0,0,0,0,0];const tr=document.createElement("tr");
+tr.innerHTML=d.map((x,i)=>`<td><input ${i?'type="number" step="any"':''} value="${x}"></td>`).join("")+'<td><button class="x" title="Quitar">✕</button></td>';
+tr.querySelector("button").onclick=()=>{tr.remove();calc()};
+tr.querySelectorAll("input").forEach(i=>i.oninput=calc);$("tp").tBodies[0].appendChild(tr);calc()}
+function rows(){return [...$("tp").tBodies[0].rows].map(r=>{const x=[...r.querySelectorAll("input")];
+return{n:x[0].value||"Sin nombre",q:+x[1].value||0,p:+x[2].value||0,w:+x[3].value||0,vol:+x[4].value||0,ar:+x[5].value||0,ot:+x[6].value||0,pv:+x[7].value||0}})}
+function calc(){
+const P=rows(),m=$("mon").value||"",b=$("base").value;
+P.forEach(p=>p.fob=p.q*p.p);
+const fob=P.reduce((s,p)=>s+p.fob,0);
+const flete=v("c_flete"),orig=v("c_origen"),oint=v("c_otrosint");
+const seg=(fob+flete)*v("p_seg")/100;
+const fin=fob*v("p_fin")/100;
+const intl=orig+flete+seg+oint;
+const loc=v("c_tasas")+v("c_agente")+v("c_puerto")+v("c_alm")+v("c_trans")+v("c_otros")+fin;
+const key={valor:"fob",peso:"w",volumen:"vol",unidades:"q"}[b];
+let tot=P.reduce((s,p)=>s+p[key],0);if(!tot)tot=1;
+let sA=0,sD=0,sO=0,sI=0,sL=0,sC=0;
+P.forEach(p=>{const sh=p[key]/tot;
+p.gi=intl*sh;p.cif=p.fob+p.gi;
+p.duty=p.cif*p.ar/100;p.oth=p.cif*p.ot/100;
+p.iva=(p.cif+p.duty+p.oth)*v("p_iva")/100;
+p.gl=loc*sh;
+p.tc=p.cif+p.duty+p.oth+p.gl+($("ivarec").value==="1"?0:p.iva);
+p.cu=p.q?p.tc/p.q:0;
+sD+=p.duty;sO+=p.oth;sI+=p.iva;sC+=p.cif;sL+=p.gl;sA+=p.tc});
+const cifT=sC;const ivaPag=sI;
+const desembolso=sA+($("ivarec").value==="1"?sI:0);
+const fx=v("fx"),m2=$("mon2").value;
+const eq=(n)=>m2&&fx?` <span style="color:var(--mu);font-size:12px">≈ ${f(n*fx)} ${m2}</span>`:"";
+$("kp").innerHTML=[["Valor FOB",fob],["Valor CIF (base aduanera)",cifT],["Aranceles + otros imp.",sD+sO],["IVA a pagar en aduana",ivaPag],["Costo total (landed)",sA],["Desembolso total en caja",desembolso]]
+.map(a=>`<div><span>${a[0]}</span><b>${f(a[1])} ${m}</b>${eq(a[1])}</div>`).join("");
+const parts=[["FOB",fob,"#0b6e4f"],["Costos intl.",intl,"#2f80ed"],["Aranceles/otros",sD+sO,"#f2994a"],["IVA en costo",$("ivarec").value==="1"?0:sI,"#eb5757"],["Costos locales",loc,"#9b51e0"]];
+const T=parts.reduce((s,a)=>s+a[1],0)||1;
+$("bar").innerHTML=parts.map(a=>`<i style="width:${a[1]/T*100}%;background:${a[2]}"></i>`).join("");
+$("lg").innerHTML=parts.map(a=>`<em><u style="background:${a[2]}"></u>${a[0]}: ${f(a[1])} (${f(a[1]/T*100)}%)</em>`).join("");
+const R=[["Gastos en origen",orig],["Flete internacional",flete],["Seguro",seg],["Otros cargos internacionales",oint],["Tasas aduaneras fijas",v("c_tasas")],["Agente aduanero",v("c_agente")],["Puerto y manejo",v("c_puerto")],["Almacenaje / demoras",v("c_alm")],["Transporte local",v("c_trans")],["Otros costos locales",v("c_otros")],["Costo financiero",fin]];
+$("desg").innerHTML=R.map(a=>`<div class="r"><span>${a[0]}</span><span>${f(a[1])} ${m}</span></div>`).join("")+`<div class="r tot"><span>Sobrecosto sobre FOB</span><span>${fob?f((sA-fob)/fob*100):"0.00"}%</span></div>`;
+$("tr").tBodies[0].innerHTML=P.map(p=>{const mg=p.pv?(p.pv-p.cu)/p.pv*100:null;
+return`<tr><td>${p.n}</td><td>${f(p.fob)}</td><td>${f(p.gi)}</td><td>${f(p.cif)}</td><td>${f(p.duty)}</td><td>${f(p.oth)}</td><td>${f(p.iva)}</td><td>${f(p.gl)}</td><td><b>${f(p.tc)}</b></td><td><b>${f(p.cu)}</b></td><td>${mg===null?"—":f(mg)+"%"}</td><td>${f(p.cu/0.7)}</td></tr>`}).join("");
+}
+document.querySelectorAll("input,select").forEach(e=>e.oninput=calc);
+demo.forEach(addRow);
+</script></main><footer>© 2026 Calculadora de importación · <a href="privacidad.html">Política de privacidad</a> · <a href="contacto.html">Contacto</a><p>Los resultados son estimaciones informativas y no constituyen asesoría aduanera, fiscal ni legal. Confirma aranceles e impuestos con un agente de aduana autorizado.</p></footer><div id="ck"><span>Usamos cookies para mostrar anuncios y medir el uso del sitio. Más información en la <a href="privacidad.html">política de privacidad</a>.</span><button id="ok">Aceptar</button></div>
+<script>try{if(!localStorage.getItem("ck"))document.getElementById("ck").style.display="flex"}catch(e){document.getElementById("ck").style.display="flex"}
+document.getElementById("ok").onclick=function(){try{localStorage.setItem("ck","1")}catch(e){}document.getElementById("ck").style.display="none"}</script></body></html>

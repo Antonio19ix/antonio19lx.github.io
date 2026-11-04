@@ -1,0 +1,4 @@
+1. Busca TU-DOMINIO.com y TU-CORREO en todos los archivos y reemplázalos.
+2. Sube TODOS estos archivos a la raíz de tu repositorio de GitHub.
+3. Settings > Pages > rama main, carpeta root.
+4. Con AdSense aprobado: pega el script en <head> (comentario ADSENSE) y tus unidades en los 3 comentarios ANUNCIO de index.html. Pega tu línea en ads.txt.
